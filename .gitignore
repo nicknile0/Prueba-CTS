@@ -1,8 +1,13 @@
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+*.pdb
 *.egg
 *.egg-info/
-*.pyc
+dist/
+build/
+*.log
 
 venv/
 
@@ -15,5 +20,24 @@ db.sqlite3
 staticfiles/
 media/
 
+node_modules/
+dist/
+.npm/
+.cache/
+.nuxt/
+*.log
+
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
 .vscode/
 .idea/
+*.swp
+*.swo
