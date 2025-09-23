@@ -1,9 +1,10 @@
 import random
+from django.utils import timezone
 from django.shortcuts import render
 from rest_framework import generics, status, permissions, filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Participante, Ganador
+from .models import Participante, Ganador, TokenVerificacion
 from .serializers import ParticipanteSerializer, LoginAdminSerializer, ListaParticipantesSerializer 
 from .tasks import enviar_correo_prueba, notificar_ganador
 
@@ -58,3 +59,25 @@ class SorteoGanadorView(APIView):
             "nombre": ganador.nombre,
             "email": ganador.email
         })
+    
+class VerificarCuentaView(APIView):
+    def posrt(self, request):
+        token = request.data.get("token")
+        password = request.data.get("password")
+
+        try:
+            token_obj = TokenVerificacion.objects.get(token = token)
+        except TokenVerificacion.DoesNotExist:
+            return Response({"detail": "Token inválido."}, status = status.HTTP_400_BAD_REQUEST)
+        
+        if token_obj.expiracion < timezone.now():
+            return Response({"detail": "Token expirado."}, status = status.HTTP_400_BAD_REQUEST)
+        
+        participante = token_obj.participante
+        participante.set_password(password)
+        participante.verificado = True
+        participante.save()
+
+        token_obj.delete()
+
+        return Response({"detail": "Cuenta verificada correctamente."})
