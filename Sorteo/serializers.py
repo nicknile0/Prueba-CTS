@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Participante
-from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password
 
 
 class ParticipanteSerializer(serializers.ModelSerializer):
@@ -19,9 +19,19 @@ class LoginAdminSerializer(serializers.Serializer):
     password = serializers.CharField(write_only = True)
 
     def validate(self, data):
-        user = authenticate(username = data['email'], password = data['password'])
-        if not user or not user.is_staff:
-            raise serializers.ValidationError("credenciales inválidas o usuario no administrador.")
+        try:
+            user = Participante.objects.get(email=data['email'])
+        except Participante.DoesNotExist:
+            raise serializers.ValidationError("Credenciales inválidas o usuario no administrador.")
+        
+        # Verificar contraseña
+        if not check_password(data['password'], user.password):
+            raise serializers.ValidationError("Credenciales inválidas o usuario no administrador.")
+
+        # Verificar permisos de admin
+        if not user.is_staff:  
+            raise serializers.ValidationError("Credenciales inválidas o usuario no administrador.")
+
         data['user'] = user
         return data
     

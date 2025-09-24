@@ -25,15 +25,27 @@ export default {
     methods: {
         async login() {
             try {
-                await axios.post('http://localhost:8000/api/admin/login/', {
+                const res = await axios.post('http://localhost:8000/api/admin/login/', {
                     email: this.email,
                     password: this.password
                 })
-                this.mensaje = 'Bienvenido, ${res.data.nombre || this.email}'
-                this.email = ''
-                this.password = ''
+                console.log("Respuesta backend:", res.data)
+                this.mensaje = `Bienvenido, ${res.data.nombre || this.email}`
+
+                localStorage.setItem('adminToken', res.data.token);
+
+                this.$router.push('/admin/participantes');
             } catch (err) {
-                this.mensaje = 'Credenciales inválidas.'
+                if (err.response) {
+                    console.log("Error del backend:", err.response.data)
+                    this.mensaje = err.response.data.detail || 'Credenciales inválidas.'
+                } else if (err.request) {
+                    console.log("No hubo respuesta del backend:", err.request)
+                    this.mensaje = 'No se pudo conectar con el servidor.'
+                } else {
+                    console.log("Error inesperado:", err.message)
+                    this.mensaje = 'Error inesperado.'
+                }
             }
         }
     }

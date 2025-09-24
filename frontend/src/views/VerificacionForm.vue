@@ -2,7 +2,6 @@
     <div>
         <h1>Verificación y creación de contraseña</h1>
         <form @submit.prevent = "verificar">
-            <input v-model = "token" placeholder = "Token de verificación" required />
             <input v-model = "password" type = "password" placeholder = "Contraseña" required />
             <input v-model = "password2" type = "password" placeholder = "Repite la contraseña" required />
             <button type = "submit">Activar cuenta</button>
@@ -18,10 +17,18 @@ export default {
     name : 'VerificacionForm',
     data() {
         return {
-            token: '',
             password: '',
             password2: '',
-            mensaje: ''
+            mensaje: '',
+            token: '',
+            verificado: false,
+        }
+    },
+    mounted() {
+        const urlParams = new URLSearchParams(window.location.search);
+        this.token = urlParams.get('token');
+        if (!this.token) {
+            this.mensaje = 'Token no encontrado en la URL.';
         }
     },
     methods: {
@@ -39,6 +46,7 @@ export default {
                 this.token = ''
                 this.password = ''
                 this.password2 = ''
+                this.verificado = true
             } catch (err) {
                 if (err.response && err.response.data.detail) {
                     this.mensaje = err.response.data.detail

@@ -6,6 +6,7 @@
                 {{ p.nombre }} - {{ p.email }} - {{ p.verificado ? 'Verificado' : 'No Verificado' }}
             </li>
         </ul>
+        <button @click="$router.push('/admin/sorteo')">Ir al Sorteo</button>
     </div>
 </template>
 
@@ -30,8 +31,9 @@ export default {
     },
     async mounted() {
         try {
+            const token = localStorage.getItem('adminToken');
             const res = await axios.get('http://localhost:8000/api/admin/participantes/', {
-
+                headers: { Authorization: `Token ${token}` }
             })
             this.participantes = res.data
         } catch (err) {

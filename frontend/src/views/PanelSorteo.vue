@@ -21,7 +21,12 @@ export default {
     methods: {
         async elegirGanador() {
             try {
-                const res = await axios.post('http://localhost:8000/api/admin/sorteo/', {})
+                const token = localStorage.getItem('adminToken');
+                const res = await axios.post('http://localhost:8000/api/admin/sorteo/', {},
+                    {
+                        headers: { Authorization: `Token ${token}` }
+                    }
+                )
                 this.ganador = {
                     nombre: res.data.nombre,
                     email: res.data.email
