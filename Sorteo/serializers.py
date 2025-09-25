@@ -8,6 +8,9 @@ class ParticipanteSerializer(serializers.ModelSerializer):
         model = Participante
         fields = ['id', 'nombre', 'email', 'telefono', 'verificado']
         read_only_fields = ['verificado']
+        extra_kwargs = {
+            'email': {'validators': []}
+        }
 
     def validate_email(self, value):
         if Participante.objects.filter(email = value).exists():

@@ -1,10 +1,15 @@
 <template>
     <div>
         <h1>Sorteo del Ganador</h1>
-        <button @click = "elegirGanador">Elegir Ganador</button>
-        <p v-if = "ganador">
-            Ganador: {{ ganador.nombre }} - {{ ganador.email }}
-        </p>
+        <div v-if="ganador" class="ganador-box">
+        🎉 Ganador: <strong>{{ ganador.nombre }}</strong> - {{ ganador.email }}
+        </div>
+
+        <button class="primary-btn" @click="elegirGanador">Elegir Ganador</button>
+
+        <button class="secondary-btn" @click="$router.push('/admin/participantes')">
+        Volver a participantes
+        </button>
     </div>
 </template>
 

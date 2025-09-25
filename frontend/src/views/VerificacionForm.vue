@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class = "page-container">
         <h1>Verificación y creación de contraseña</h1>
         <form @submit.prevent = "verificar">
             <input v-model = "password" type = "password" placeholder = "Contraseña" required />
             <input v-model = "password2" type = "password" placeholder = "Repite la contraseña" required />
             <button type = "submit">Activar cuenta</button>
         </form>
-        <p v-if = "mensaje">{{ mensaje }}</p>
+        <p v-if = "mensaje" :class = "['mensaje', 'mensajeTipo']">{{ mensaje }}</p>
     </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
             password: '',
             password2: '',
             mensaje: '',
+            mensajeTipo: '',
             token: '',
             verificado: false,
         }

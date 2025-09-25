@@ -6,7 +6,7 @@
             <input v-model = "password" type = "password" placeholder = "Contraseña" required />
             <button type = "submit">Ingresar</button>
         </form>
-        <p v-if = "mensaje">{{ mensaje }}</p>
+        <p v-if = "mensaje" :class = "['mensaje', 'mensajeTipo']">{{ mensaje }}</p>
     </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
         return {
             email: '',
             password: '',
-            mensaje: ''
+            mensaje: '',
+            mensajeTipo: '',
         }
     },
     methods: {
@@ -30,7 +31,8 @@ export default {
                     password: this.password
                 })
                 console.log("Respuesta backend:", res.data)
-                this.mensaje = `Bienvenido, ${res.data.nombre || this.email}`
+                this.mensaje = `Bienvenido, ${res.data.nombre || this.email}`;
+                this.mensajeTipo = 'success';
 
                 localStorage.setItem('adminToken', res.data.token);
 
@@ -38,13 +40,16 @@ export default {
             } catch (err) {
                 if (err.response) {
                     console.log("Error del backend:", err.response.data)
-                    this.mensaje = err.response.data.detail || 'Credenciales inválidas.'
+                    this.mensaje = err.response.data.detail || 'Credenciales inválidas.';
+                    this.mensajeTipo = 'error';
                 } else if (err.request) {
                     console.log("No hubo respuesta del backend:", err.request)
                     this.mensaje = 'No se pudo conectar con el servidor.'
+                    this.mensajeTipo = 'error';
                 } else {
                     console.log("Error inesperado:", err.message)
                     this.mensaje = 'Error inesperado.'
+                    this.mensajeTipo = 'error';
                 }
             }
         }

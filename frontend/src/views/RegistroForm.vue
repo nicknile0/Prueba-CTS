@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <h1>Registro para el sorteo</h1>
-        <form @submit.prevent = "registrar">
-            <input v-model = "nombre" placeholder = "Nombre completo" required />
-            <input v-model = "email" type = "email" placeholder = "Correo electrónico" required />
-            <input v-model = "telefono" placeholder = "Teléfono" required />
-            <button type = "submit">Registrarse</button>
+    <div class = "page-container">
+        <h1>💘 Inscripción al Sorteo de San Valentín</h1>
+        <form @submit.prevent="registrar">
+            <input v-model="nombre" type="text" placeholder="Nombre" required />
+            <input v-model="email" type="email" placeholder="Email" required />
+            <input v-model="telefono" type="text" placeholder="Teléfono" required />
+            <button type="submit">💝 Participar</button>
         </form>    
-        <p v-if = "mensaje">{{ mensaje }}</p>
+        <p v-if = "mensaje" :class = "['mensaje', 'mensajeTipo']">{{ mensaje }}</p>
     </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
             nombre: '',
             email: '',
             telefono: '',
-            mensaje: ''
+            mensaje: '',
+            mensajeTipo: '',
         }
     },
     methods: {
