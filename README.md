@@ -80,6 +80,7 @@ Nota: todos los comandos que empiezan con "Python" se deben ejecutar en una term
   ".env" sin las comillas. Abrir ese archivo con Bloc de Notas u otro editor de texto. Dentro de ese archivo se debe pegar lo siguiente:
 
   EMAIL_HOST_USER=sorteotest1@gmail.com
+  
   EMAIL_HOST_PASSWORD=rlyagjymatnyumtx
 
   Nota: Estas son credenciales reales para una dirección de correo creada con este fin.
@@ -227,20 +228,20 @@ Por último está la página del sorteo que tiene la función de elegir al ganad
   Response:
 
   [
-  {
-  "id": 1,
-  "nombre": "Juan Pérez",
-  "email": "juan@example.com",
-  "telefono": "987654321",
-  "verificado": true
-  },
-  {
-  "id": 2,
-  "nombre": "María López",
-  "email": "maria@example.com",
-  "telefono": "123456789",
-  "verificado": false
-  }
+     {
+        "id": 1,
+        "nombre": "Juan Pérez",
+        "email": "juan@example.com",
+        "telefono": "987654321",
+        "verificado": true
+     },
+     {
+        "id": 2,
+        "nombre": "María López",
+        "email": "maria@example.com",
+        "telefono": "123456789",
+        "verificado": false
+     }
   ]
 
 - '/api/admin/sorteo/', Método: POST, Selecciona al ganador (requiere token).
