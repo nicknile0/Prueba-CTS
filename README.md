@@ -30,10 +30,6 @@ Frontend:
 - Vue.js 3.x
 - Axios
 
-Otros:
-
-- Correo SMTP. ?
-
 # 3. Instalación
 
 1. Clonar el repositorio:
